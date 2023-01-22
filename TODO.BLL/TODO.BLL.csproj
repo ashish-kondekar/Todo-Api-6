@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TODO.Domain\TODO.Domain.csproj" />
+    <Compile Remove="IConfiguration\**" />
+    <EmbeddedResource Remove="IConfiguration\**" />
+    <None Remove="IConfiguration\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="IConfiguration\" />
+    <ProjectReference Include="..\TODO.Domain\TODO.Domain.csproj" />
   </ItemGroup>
 
 </Project>

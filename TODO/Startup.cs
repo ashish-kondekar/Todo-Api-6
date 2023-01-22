@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using TODO.Domain.Entities;
-using TODO.Extensions;
+using TODO.ServiceExtensions;
 
 public static class Startup
 {
@@ -17,19 +14,13 @@ public static class Startup
     public static WebApplication ConfigureAppServices(this WebApplicationBuilder builder)
     {
         // Add app services
-        builder.Services.AddBLLServices();
-        builder.Services.AddDALServices();
         builder.Services.AddControllers();
-        builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-        // Configure Swagger for the api
-        builder.Services.AddEndpointsApiExplorer(); //Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddSwaggerGen();
 
-        // Database configuration
-        builder.Services.AddDbContext<TodoDbContext>(options =>
-        {
-            options.UseSqlServer(builder.Configuration.GetConnectionString("Todo"));
-        });
+        builder.Services
+            .AddServices()
+            .AddDbContexts(builder.Configuration)
+            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+            .AddSwaggerUI(builder.Configuration);
 
         return builder.Build();
     }
