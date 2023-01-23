@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Net;
 using System.Threading.Tasks;
-using TODO.BLL.Models;
+using TODO.Domain.Models.Response;
 
 namespace TODO.Middlewares
 {

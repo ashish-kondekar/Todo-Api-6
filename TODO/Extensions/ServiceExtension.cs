@@ -14,6 +14,11 @@ namespace TODO.Extensions
 {
     public static class ServiceExtension
     {
+        /// <summary>
+        /// Used to add Services, Repositories and SwaggerUI
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
             // Services
@@ -22,6 +27,10 @@ namespace TODO.Extensions
             // Repositories
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITodoRepository, TodoRepository>();
+
+            // Configure Swagger/OpenAPI for the api
+            // https://aka.ms/aspnetcore/swashbuckle
+            services.AddEndpointsApiExplorer().AddSwaggerGen();
 
             return services;
         }
@@ -36,12 +45,8 @@ namespace TODO.Extensions
             return services;
         }
 
-        public static void AddSwaggerUI(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
-            // Configure Swagger for the api
-            services.AddEndpointsApiExplorer(); //Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddSwaggerGen();
-
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -49,20 +54,22 @@ namespace TODO.Extensions
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwt =>
-            {
-                var key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"]);
+             {
+                 var key = Encoding.ASCII.GetBytes(configuration["JwtConfig:Secret"]);
 
-                jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    ValidateIssuer = false, // false for dev
-                    ValidateAudience = false, // false for dev
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateLifetime = true,
-                    RequireExpirationTime = false
-                };
-            });
+                 jwt.SaveToken = true;
+                 jwt.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     ValidateIssuer = false, // false for dev
+                     ValidateAudience = false, // false for dev
+                     ValidateIssuerSigningKey = true,
+                     IssuerSigningKey = new SymmetricSecurityKey(key),
+                     ValidateLifetime = true,
+                     RequireExpirationTime = false
+                 };
+             });
+
+            return services;
         }
     }
 }

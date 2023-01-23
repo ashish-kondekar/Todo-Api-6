@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace TODO.BLL.Models
+namespace TODO.Domain.Models.Response
 {
     public class ErrorDetails
     {

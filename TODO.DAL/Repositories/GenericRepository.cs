@@ -21,42 +21,21 @@ namespace TODO.DAL.Repositories
 
         public virtual async Task<IEnumerable<T>> GetAll()
         {
-            try
-            {
-                return await _dbSet.ToListAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _dbSet.ToListAsync();
         }
 
         public virtual async Task<IEnumerable<T>> Get(Expression<Func<T, bool>> filter = null,
                                                       Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                                       string includeProperties = "")
         {
-            try
-            {
-                return await Query(filter, orderBy, includeProperties).ToListAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await Query(filter, orderBy, includeProperties).ToListAsync();
         }
 
         public virtual async Task<T> GetOne(Expression<Func<T, bool>> filter = null,
                                             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                             string includeProperties = "")
         {
-            try
-            {
-                return await Query(filter, orderBy, includeProperties).FirstOrDefaultAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await Query(filter, orderBy, includeProperties).FirstOrDefaultAsync();
         }
 
         public virtual void Add(T entity)
@@ -73,31 +52,24 @@ namespace TODO.DAL.Repositories
                                     Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
                                     string includeProperties = "")
         {
-            try
+            IQueryable<T> query = _dbSet;
+            if (filter != null)
             {
-                IQueryable<T> query = _dbSet;
-                if (filter != null)
-                {
-                    query = query.Where(filter);
-                }
-
-                foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProperty);
-                }
-
-                if (orderBy != null)
-                {
-                    return orderBy(query);
-                }
-                else
-                {
-                    return query;
-                }
+                query = query.Where(filter);
             }
-            catch (Exception)
+
+            foreach (var includeProperty in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
             {
-                throw;
+                query = query.Include(includeProperty);
+            }
+
+            if (orderBy != null)
+            {
+                return orderBy(query);
+            }
+            else
+            {
+                return query;
             }
         }
     }

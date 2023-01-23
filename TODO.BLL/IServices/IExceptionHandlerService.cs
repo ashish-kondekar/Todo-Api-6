@@ -1,4 +1,4 @@
-﻿using TODO.BLL.Models.Request;
+﻿using TODO.Domain.Models.Request;
 
 namespace TODO.BLL.IServices
 {

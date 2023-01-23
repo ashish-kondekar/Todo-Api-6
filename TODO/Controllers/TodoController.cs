@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using TODO.BLL.IServices;
-using TODO.BLL.Models.Request;
 using TODO.Domain.Entities;
+using TODO.Domain.Models.Request;
 
 namespace TODO.Controllers
 {
