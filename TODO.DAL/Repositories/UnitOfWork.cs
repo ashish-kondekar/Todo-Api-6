@@ -7,14 +7,16 @@ namespace TODO.DAL.Repositories
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
         private readonly TodoDbContext _todoDbContext;
+        private readonly ILoggerFactory _logger;
+
         public ITodoRepository TodoRepo { get; private set; }
 
         public UnitOfWork(TodoDbContext todoDbContext, ILoggerFactory logger)
         {
             _todoDbContext = todoDbContext;
-            //_logger = logger.CreateLogger("Todo Logs");
+            _logger = logger;
 
-            TodoRepo = new TodoRepository(_todoDbContext);
+            TodoRepo = new TodoRepository(_todoDbContext, _logger.CreateLogger<Todo>());
         }
 
         public async Task CompleteAsync()
