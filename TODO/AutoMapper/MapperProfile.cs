@@ -1,6 +1,6 @@
-﻿using TODO.BLL.Models.Request;
-using TODO.Domain.Entities;
+﻿using TODO.Domain.Entities;
 using AutoMapper;
+using TODO.Domain.Models.Request;
 
 namespace TODO
 {

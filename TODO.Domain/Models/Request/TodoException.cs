@@ -1,4 +1,6 @@
-﻿namespace TODO.BLL.Models.Request
+﻿using TODO.Domain.Models.Response;
+
+namespace TODO.Domain.Models.Request
 {
     public class TodoException
     {

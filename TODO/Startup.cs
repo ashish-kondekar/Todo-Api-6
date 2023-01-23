@@ -6,6 +6,8 @@ using System;
 using TODO.Extensions;
 using TODO.Middlewares;
 
+namespace TODO;
+
 public static class Startup
 {
     /// <summary>
@@ -19,16 +21,14 @@ public static class Startup
         builder.Services.AddControllers();
 
         // Add logging configuration services
-        builder.Logging.ClearProviders();
-        builder.Logging.AddConsole();
-        builder.Logging.AddDebug();
+        builder.Logging.ClearProviders().AddConsole();
 
         // Add Todo sepecific services
         builder.Services
             .AddServices()
             .AddDbContexts(builder.Configuration)
-            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
-            .AddSwaggerUI(builder.Configuration);
+            .AddAuthentication(builder.Configuration)
+            .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
         return builder.Build();
     }

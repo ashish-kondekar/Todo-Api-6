@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TODO.BLL.Models.Request
+namespace TODO.Domain.Models.Request
 {
     public class TodoUpdateRequest : TodoAddRequest
     {
