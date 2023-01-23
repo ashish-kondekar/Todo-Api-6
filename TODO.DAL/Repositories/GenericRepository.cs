@@ -9,12 +9,14 @@ namespace TODO.DAL.Repositories
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         private readonly TodoDbContext _todoDbContext;
+        private readonly ILogger<T> _logger;
         private readonly DbSet<T> _dbSet;
 
-        public GenericRepository(TodoDbContext todoDbContext)
+        public GenericRepository(TodoDbContext todoDbContext, ILogger<T> logger)
         {
             _todoDbContext = todoDbContext;
-            _dbSet = todoDbContext.Set<T>();
+            _logger = logger;
+            _dbSet = _todoDbContext.Set<T>();
         }
 
         public virtual async Task<IEnumerable<T>> GetAll()
@@ -23,9 +25,8 @@ namespace TODO.DAL.Repositories
             {
                 return await _dbSet.ToListAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                //_logger.LogError(ex, "{repo} failed to fetch", typeof(T));
                 throw;
             }
         }
@@ -38,7 +39,7 @@ namespace TODO.DAL.Repositories
             {
                 return await Query(filter, orderBy, includeProperties).ToListAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -52,7 +53,7 @@ namespace TODO.DAL.Repositories
             {
                 return await Query(filter, orderBy, includeProperties).FirstOrDefaultAsync();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -94,7 +95,7 @@ namespace TODO.DAL.Repositories
                     return query;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
-using TODO.ServiceExtensions;
+using TODO.Extensions;
+using TODO.Middlewares;
 
 public static class Startup
 {
@@ -16,6 +18,12 @@ public static class Startup
         // Add app services
         builder.Services.AddControllers();
 
+        // Add logging configuration services
+        builder.Logging.ClearProviders();
+        builder.Logging.AddConsole();
+        builder.Logging.AddDebug();
+
+        // Add Todo sepecific services
         builder.Services
             .AddServices()
             .AddDbContexts(builder.Configuration)
@@ -35,8 +43,14 @@ public static class Startup
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            app.UseMiddleware<ExceptionMiddleware>();
+            //app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
+        }
+        else
+        {
+            app.UseMiddleware<ExceptionMiddleware>();
         }
 
         app.UseHttpsRedirection();

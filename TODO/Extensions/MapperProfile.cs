@@ -4,9 +4,9 @@ using AutoMapper;
 
 namespace TODO
 {
-    public class AutoMapperProfile : Profile
+    public class MapperProfile : Profile
     {
-        public AutoMapperProfile()
+        public MapperProfile()
         {
             CreateMap<TodoAddRequest, Todo>();
             CreateMap<TodoUpdateRequest, Todo>();

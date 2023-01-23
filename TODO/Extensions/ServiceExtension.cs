@@ -10,7 +10,7 @@ using TODO.BLL.Services;
 using TODO.DAL.Repositories;
 using TODO.Domain.Entities;
 
-namespace TODO.ServiceExtensions
+namespace TODO.Extensions
 {
     public static class ServiceExtension
     {
